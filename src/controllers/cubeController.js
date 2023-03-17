@@ -1,13 +1,11 @@
 let router = require("express").Router();
-let cubes = require("../db.json");
-let fs = require("fs/promises");
-let path = require("path")
+let cubeService = require("../services/cubeService");
 
 router.get("/create", (req, res) => {
     res.render("create")
 });
 
-router.post("/create", (req, res) => {
+router.post("/create", async (req, res) => {
     let cube = req.body
     //validate
     if (req.body.name < 0) {
@@ -15,16 +13,17 @@ router.post("/create", (req, res) => {
     }
 
     //save data
-    cubes.push(req.body);
-    fs.writeFile(path.resolve('src', "db.json"), JSON.stringify(cubes,'', 4))
-        .then(() => {
-            // redirect
-            res.redirect("/")
-        })
-        .catch(err => {
-            res.send(err);
-        });
+    try {
+        await cubeService.save(cube);
+        res.redirect("/");
+    } catch (error) {
+        res.send(error)
+    }
 
+});
+
+router.get("/details/:id", (req, res) => {
+res.render("details")
 });
 
 module.exports = router;
