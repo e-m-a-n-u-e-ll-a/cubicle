@@ -5,7 +5,7 @@ let cubeController = require("./controllers/cubeController");
 
 let router = express.Router();
 
-router.get("/", homeController.index);
+router.use("/", homeController);
 router.use("/cube", cubeController);
-router.get("/about", homeController.about);
+
 module.exports = router;
