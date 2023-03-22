@@ -1,5 +1,6 @@
 let express = require("express");
 let handlebars = require("express-handlebars");
+let { initializeDatabase } = require("./confing/database");
 
 let routes = require("./routes");
 
@@ -16,6 +17,11 @@ app.set("views", "./src/views")
 
 app.use(routes);
 
-app.listen(5000, () => {
-    console.log("App is listening on port 5000");
-});
+
+initializeDatabase()
+    .then(() => {
+        app.listen(5000, () => console.log("App is listening on port 5000"));
+    })
+    .catch((err) => {
+        console.log(err);
+    });
