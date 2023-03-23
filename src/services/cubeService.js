@@ -1,4 +1,3 @@
-let cubes = require("../db.json");
 let fs = require("fs/promises");
 let path = require("path");
 let Cube = require('../models/Cube')
