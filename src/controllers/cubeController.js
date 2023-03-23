@@ -9,7 +9,7 @@ router.get("/create", (req, res) => {
 router.post("/create", async (req, res) => {
     let cube = req.body
     //validate
-    if (req.body.name < 0) {
+    if (req.body.name <= 0) {
         return res.status(400).send("Invalid request?")
     }
 
@@ -24,9 +24,9 @@ router.post("/create", async (req, res) => {
 });
 
 // !!!!! \\
-router.get("/details/:id", (req, res) => {
-    let cube = cubeService.getOne(req.params.id);
-    
+router.get("/details/:_id", async (req, res) => {
+    let cube = await cubeService.getOne(req.params._id).lean();
+console.log(cube)
     res.render("details", { cube });
 });
 
