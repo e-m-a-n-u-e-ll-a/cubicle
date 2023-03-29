@@ -13,10 +13,16 @@ let accessorySchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    cubes: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: 'Cube'
+        }
+    ]
 
 });
 accessorySchema.path('imageUrl').validate(function () {
     return this.imageUrl.startsWith('http')
 });
 let Accessory = mongoose.model('Accessory', accessorySchema);
-module.exports= Accessory;
+module.exports = Accessory;

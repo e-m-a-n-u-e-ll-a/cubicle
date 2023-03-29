@@ -1,6 +1,6 @@
 let mongoose = require("mongoose");
 let cubeSchema = new mongoose.Schema({
-   // _id: mongoose.Types.ObjectId,
+    // _id: mongoose.Types.ObjectId,
     name: {
         type: String,
         required: true,
@@ -20,7 +20,13 @@ let cubeSchema = new mongoose.Schema({
         required: true,
         min: 0,
         max: 6
-    }
+    },
+    accessory: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: 'Accessory'
+        }
+    ]
 });
 cubeSchema.path('imageUrl').validate(function () {
     return this.imageUrl.startsWith("http");
