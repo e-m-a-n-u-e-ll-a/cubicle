@@ -9,6 +9,6 @@ let router = express.Router();
 
 router.use("/", homeController);
 router.use("/cube", cubeController);
-router.use("/accessory",accessoryController)
+router.use("/accessory", accessoryController)
 
 module.exports = router;
