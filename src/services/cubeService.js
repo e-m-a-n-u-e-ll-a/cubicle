@@ -1,7 +1,7 @@
 let fs = require("fs/promises");
 let path = require("path");
 const Accessory = require("../models/Accessory");
-let Cube = require('../models/Cube')
+let Cube = require('../models/Cube');
 
 exports.save = (cube) => {
     return Cube.create(cube);
@@ -13,14 +13,12 @@ exports.getOne = (id) => Cube.findById(id);
 
 
 exports.getAll = async (search = '', frominput = 0, toinput = 6) => {
-    let cubes = await Cube.find().lean();
-    /*  let from = Number(frominput) || 0;
-       let to = Number(toinput) || 6;
-       let result = cubes
-           .filter(x => x.name.toLowerCase().includes(search.toLowerCase()))
-           .filter(x => x.difficultyLevel >= from && x.difficultyLevel <= to);
-       return result;*/
-    return cubes;
+    let from = Number(frominput) || 0;
+    let to = Number(toinput) || 6;
+    let cubes = await Cube.find({ name: { $regex: new RegExp(search, 'i') } })
+        .where('difficultyLevel').gte(from).lte(to).lean();
+
+        return cubes;
 }
 
 
