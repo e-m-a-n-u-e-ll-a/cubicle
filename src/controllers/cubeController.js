@@ -25,22 +25,29 @@ router.post("/create", async (req, res) => {
 
 // !!!!! \\
 router.get("/details/:_id", async (req, res) => {
-    let cube = await cubeService.getOne(req.params._id).lean();
-    console.log(cube)
+    let cube = await cubeService.getOneDetailed(req.params._id).lean();
+    // console.log(cube);
     res.render("details", { cube });
 });
 
 
 router.get('/:_id/attach', async (req, res) => {
     let cube = await cubeService.getOne(req.params._id).lean();
-    let accessories = await accessoryService.getAll().lean();
+    let accessories = await accessoryService.getAllWithout(cube.accessories).lean();
     res.render('accessory/attach', { cube, accessories });
 });
 
 router.post('/:_id/attach', async (req, res) => {
-    let accessoryId = req.body.accessory
-    await cubeService.attach(req.params._id, accessoryId);
-    res.redirect(`/cube/details/${req.params._id}`)
+    let accessoryId = req.body.accessory;
+    try {
+        await cubeService.attach(req.params._id, accessoryId);
+        res.redirect(`/cube/details/${req.params._id}`)
+
+    } catch (err) {
+        res.status(404);
+        res.render('404');
+        console.log(err);
+    }
 
 })
 

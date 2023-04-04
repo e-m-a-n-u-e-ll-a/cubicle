@@ -7,7 +7,9 @@ exports.save = (cube) => {
     return Cube.create(cube);
 }
 
-exports.getOne = (id) => Cube.findById(id).populate('accessories');
+exports.getOneDetailed = (id) => Cube.findById(id).populate('accessories');
+
+exports.getOne = (id) => Cube.findById(id);
 
 
 exports.getAll = async (search = '', frominput = 0, toinput = 6) => {
